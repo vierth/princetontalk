@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="d3.min.js"></script>
+<script src="yujing_edge_data.js"></script>
+<style>
+.hidden{
+  display:none;
+}
+body{
+    font-family: "Avenir", Helvetica, sans-serif,"Songti SC", "SimSun",	"华文细黑","STHeiti";
+    background: #222;
+    background-color: #222;
+}
+
+
+
+</style>
+</head>
+<body>
+<script>
+var width = window.innerWidth - 40;
+var height = window.innerHeight - 40;
+
+var manycolors = [ "#6168d8","#5ab543","#a45bcd","#a7b242","#ca4faf","#67ba75","#da4b83","#49b39c","#cd4249","#4cbee0","#c95a2a","#6386d9","#d89e3d","#7b5a9f","#547836","#d28ecb","#da8571","#5e90c8","#a24c69"]
+var usecolors = manycolors.slice(0, docs.length + 2)
+var d1length = 82048
+var d2length = 65306
+var docwidthscale = d3.scaleLinear().domain([0,d1length]).range([0, (width/5)*4])
+var text1y = -(height/3)
+var text1x = -(docwidthscale(docs[0].len)/2)
+var text2y = (height/10)
+var text2x = -(docwidthscale(docs[1].len)/2)
+var textthick = 20
+var stage = 0;
+var svg = d3.select('body')
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .append('g')
+    .attr('transform', 'translate(' + (width / 2) +
+    ',' + (height / 2) + ')');
+
+var trect1 = svg.append("rect")
+                .attr("x",text1x)
+                .attr("y",text1y)
+                .attr("width",docwidthscale(docs[0].len))
+                .attr("height",textthick)
+                .attr("fill",usecolors[0])
+                .attr("opacity", 1.0)
+                .attr("class","t1")
+
+var trect2 = svg.append("rect")
+                .attr("x",text2x)
+                .attr("y",text2y)
+                .attr("width",docwidthscale(docs[1].len))
+                .attr("height",textthick)
+                .attr("opacity", 1.0)
+                .attr("fill",usecolors[1])
+                .attr("class","t2")
+
+
+
+
+var proceed = svg.append("rect")
+                .attr("x", -(width/2) +20)
+                .attr("y", (height/2) - 20)
+                .attr('width',60)
+                .attr('height',20)
+                .attr('fill','grey')
+                .on("click", function(){
+                    stage += 1;
+                    draw(stage);
+                })
+var selectionlength = 500;
+var totalsamples = 50;
+var distribution = width/(totalsamples + 1)
+
+var xdistributions = []
+
+for (let i = 0; i < totalsamples; i++){
+    let startpoint = Math.floor(Math.random()* (d1length-selectionlength))
+    let startx = docwidthscale(startpoint)
+    let endx= docwidthscale(startpoint + selectionlength)
+    let samplewidth = endx - startx
+    xdistributions.push(distribution * (i + 1))
+    svg.append("rect")
+        .attr("class","rando1")
+        .attr("x", text1x+startx)
+        .attr("y", -height/4)
+        .attr("goalx", distribution * (i+1)-width/2)
+        .attr("width",samplewidth)
+        .attr("height", textthick)
+        .attr("opacity", 0.0)
+        .attr("fill","magenta")
+}
+    
+for (let i = 0; i < totalsamples; i++){
+    let startpoint = Math.floor(Math.random()* (d2length-selectionlength))
+    let startx = docwidthscale(startpoint)
+    let endx= docwidthscale(startpoint + selectionlength)
+    let samplewidth = endx - startx
+    svg.append("rect")
+        .attr("class","rando2")
+        .attr("x", text2x+startx)
+        .attr("y", height/4)
+        .attr("goalx", distribution * (i+1)-width/2)
+        .attr("width",samplewidth)
+        .attr("height", textthick)
+        .attr("opacity", 0.0)
+        .attr("fill","cyan")
+}
+
+var modelbox = svg.append("rect")
+                .attr("width", width/10)
+                .attr("height", height/6)
+                .attr("x",-width/4 - width/20)
+                .attr("y",-height/12)
+                .attr("fill","#222")
+                .attr("stroke","white")
+                .attr("class","model")
+                .attr("opacity", 0.0)
+var modelboxtext = svg.append("text")
+                    .attr("x",-width/4)
+                    .attr("y",0)
+                    .attr('fill','white')
+                    .attr('class','modeltext')
+                    .attr("text-anchor","middle")
+                    .attr("font-size","24")
+                    .attr("opacity", 0.0)
+                    .text("Model")
+
+function draw(stage){
+    if (stage == 1){
+        d3.select(".t1").transition().duration(1000).attr('y',-height/4);
+        d3.select(".t2").transition().duration(1000).attr('y',height/4);
+    }
+    if (stage == 2){
+        d3.selectAll(".rando1").transition().duration(500).attr("opacity",1.0)
+        d3.selectAll(".rando2").transition().duration(500).attr("opacity",1.0)
+    }
+    if (stage == 3){
+        d3.select(".t1").transition().duration(500).attr('opacity',0.0);
+        d3.select(".t2").transition().duration(500).attr('opacity',0.0);
+
+        d3.selectAll(".rando1").each(function(d,i){
+            d3.select(this).transition().duration(1000).attr("x",d3.select(this).attr('goalx'))
+        })
+        d3.selectAll(".rando2").each(function(d,i){
+            d3.select(this).transition().duration(1000).attr("x",d3.select(this).attr('goalx'))
+        })
+    }
+    if (stage == 4){
+        d3.selectAll(".rando1").each(function(d,i){
+            if (i < 45){
+                d3.select(this).transition().duration(1000).attr("x",d3.select(this).attr('goalx')/3)
+                //d3.select(this).transition().duration(1000)
+            }
+            
+        })
+        d3.selectAll(".rando2").each(function(d,i){
+            if (i < 45){
+                d3.select(this).transition().duration(1000).attr("x",d3.select(this).attr('goalx')/3)
+                //d3.select(this).transition().duration(1000)
+            }
+            
+        })
+    }
+    if (stage == 5){
+        d3.select('.model').transition().duration(500).attr("opacity",1.0)
+        d3.select('.modeltext').transition().duration(500).attr("opacity",1.0)
+    }
+    if (stage == 6){
+        let turnblue = false
+        d3.selectAll(".rando1").each(function(d,i){
+            if (i < 45){
+                d3.select(this).transition().duration(1000).attr("x",-width/4-d3.select(this).attr('width')/2).attr("y",0)
+                //d3.select(this).transition().duration(1000)
+            }
+            
+        })
+        d3.selectAll(".rando2").each(function(d,i){
+            if (i < 45){
+                d3.select(this).transition().duration(1000).attr("x",-width/4-d3.select(this).attr('width')/2).attr("y",0).on("end",function(){d3.select(".model").transition().duration(1000).attr("fill","blue");})
+                
+            }
+            
+        })
+        
+        
+    }
+    if (stage ==7){
+        d3.selectAll(".rando1").each(function(d,i){
+            if (i >= 45){
+                d3.select(this).transition(2000).attr("x",d3.select(this).attr('goalx')-width/4).attr("fill","#777").attr("stroke","magenta")
+            }
+        })
+        d3.selectAll(".rando2").each(function(d,i){
+            if (i >= 45){
+                d3.select(this).transition(2000).attr("x",d3.select(this).attr('goalx')-width/4).attr("fill","#777").attr("stroke","cyan")
+            }
+        })
+        
+    }
+    console.log(stage)
+}
+
+</script>
+</body>
+</html>

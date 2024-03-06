@@ -1,0 +1,36 @@
+<head>
+    <style> body { margin: 0; } </style>
+    <script src="force-graph-min.js"></script>
+    <script src="jpm_text_net.js" charset="UTF-8"></script>
+  </head>
+  
+  <body>
+    <div id="graph"></div>
+  
+    <script>
+      
+  
+    const Graph = ForceGraph()
+    
+    (document.getElementById('graph'))
+        .graphData(data)
+        .nodeId('id')
+        .nodeVal('val')
+        .nodeLabel('title')
+        // .nodeRelSize([2])
+        .nodeAutoColorBy('quote_nature')
+        .linkSource('source')
+        .linkTarget('target')
+        .linkColor(['grey'])
+        .linkWidth([.1])
+        // .linkDirectionalParticles(1)
+        // .linkDirectionalParticleSpeed(d => Math.floor((Math.random() * 10) + 1)/5000)
+        // .linkDirectionalParticleWidth(2)
+        
+    // Graph.d3Force('center', null);
+
+    // fit to canvas when engine stops
+    // Graph.onEngineStop(() => Graph.zoomToFit(1000));
+    
+    </script>
+  </body>

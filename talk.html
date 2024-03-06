@@ -1,0 +1,506 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Princeton</title>
+
+	<link rel="stylesheet" href="reveal/dist/reset.css">
+	<link rel="stylesheet" href="reveal/dist/reveal.css">
+	<link rel="stylesheet" href="reveal/dist/theme/black.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="reveal/plugin/highlight/monokai.css">
+	<script src="reveal/js/jquery.js"></script>
+	<script src="force-graph-min.js"></script>
+	<script>
+		$(function () {
+			$("#slides").load("content.html");
+		});
+	</script>
+	<style>
+		i {font-style: "italic";}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h2>Machine-learning and the Intertextual Formation of Style in <i style="font-style:italic;">Jinpingmei</i></h2>
+				<p><small>Paul Vierthaler, William & Mary</small></p>
+
+				<aside class="notes">
+					Thank you all so much for the invitation! Today I am going to be talking about machine-learning and the intertextual formation of style in Jinpingmei, one of the most important novels from Ming dynasty China. Essentially, I will be showing how I can computationally identify source material in Jinpingmei and measure the impact it has on the style of the novel as a whole.
+					<br>
+					<br>
+					The Plum in the Golden Vase has cemented its rather notorious place in the
+					Chinese canon as a pornographic text of remarkable literary quality that integrates textual
+					fragments from an unprecedented number and variety of sources. The
+					literary microcosm of the Plum in the Golden Vase encompasses complex literary and linguistic
+					phenomenon, and for me it
+					has become a test site for developing methods for studying how Chinese literature behaves at a
+					systemic level. 
+
+					
+				</aside>
+			</section>
+			<section>
+				<h2>The Vectorized <i style="font-style:italic;">Jinpingmei</i></h2>
+				<table>
+					<tr><td style="color:cyan;">1: Genesis of a Masterpiece</td></tr>
+					<tr><td>2: Editorial Transformation</td></tr>
+					<tr><td>3: Cross-generic Pollination</td></tr>
+					<tr><td>4: Vectors of Philosophy</td></tr>
+					<tr><td>5: Capturing the Author's Signature</td></tr>
+					<tr><td>6: A Viral Manuscript</td></tr>
+				</table>
+				<aside class="notes">
+					Most of the talk today is derived from the first chapter of my second monograph project.
+					<br><br>
+					The core of my research for this book, at its most fundamental, is asking if we can measure what makes a text like Jinpingmei unique. And if we CAN quantify it in some way, then we can start to tease out its influences in ways that were never possible before.
+				</aside>
+			</section>
+			<section data-background="resources/jpmed.png" data-background-size="contain" data-background-position="right">
+				<p style="text-align: left; font-size: 1.1em;"><i style="font-style:italic;">Plum in the Golden Vase</i></p>
+				<p style="text-align: left; font-size: 1.1em;"><i style="font-style:italic;">Jinpingmei</i> 金瓶梅</p>
+				<p style="position: fixed; bottom:-40px; left:0px; font-size: .35em">
+					https://tenthousandrooms.yale.edu/node/336/mirador?canvas=31481</p>
+				<aside class="notes">For those who are not familiar with it, The Plum in the Golden Vase is one of the
+					Four major ming novels. It is a deeply intertextual novel that tells the tale of the fictional Song dynasty
+					ne'er do well Xi'men Qing. The kernel of the story comes from another of the four Ming novels, the Water Margin.
+					In that story, the famous warrior Wu Song discovers that his brother's wife Pan Jinlian is having an affair
+					with Xi'men Qing. In the water margin, Wu Song kills them both and that is the end of it. In the Plum in the
+					Golden Vase, Wu Song is exiled before he can kill them. Xi'men Qing goes on to accumulate wives, political power,
+					and wealth until his unhealthy sexual appetites eventually kills him, afterwhich his household disperses.
+					<br><br>
+					It is often read a political, social, religious, or philosophical allegory. But it has been banned
+					for most of its existence because it is also very pornographic.
+				</aside>
+			</section>
+			
+			<section>
+				<h2>The <i style="font-style:italic;">Plum's</i> Early Textual History</h2>
+				<p class="fragment">late 16th century: mansucript begins circulation</p>
+				<p class="fragment">before 1606: complete manuscript</p>
+				<p class="fragment">1610: first(?) printed edition</p>
+				<p class="fragment">1617: earliest extant edition</p>
+				<p class="fragment">1630s/40s: highly-edited popular edition is published</p>
+				<aside class="notes">We know a decent amount about the Plums early textual history</aside>
+			</section>
+			<section>
+				<h2>A complex, heteroglossic, and extensively studied text</h2>
+				<p class="fragment">Hanan's "Sources of the <i style="font-style:italic;">Chin P'ing Mei"</i></p>
+				<p class="fragment">Carlitz's <i style="font-style:italic;">The Rhetoric of Chin p’ing mei</i></p>
+				<p class="fragment">Tian's "A Preliminary Comparison of the Two Recensions of <i style="font-style:italic;">Jinpingmei</i>"</p>
+				<p class="fragment">Shang Wei's "<i style="font-style:italic;">Jin Ping Mei</i> and Late Ming Print Culture"</p>
+				<aside class='notes'>A lot of excellent work has been done in studying the sources of the Jin Ping Mei
+					by excellent scholars like Patrick Hanan and Tian Xiaofei, but there is space for improvement using
+					corpus-level analysis.</aside>
+			</section>
+			
+			<section>
+				<p>
+					The hero grips his "Hook of Wu,"
+					Eager to cut off ten thousand heads.
+					How is it that a heart forged out of iron and stone,
+					Can yet be melted by a flower...
+				</p>
+				<p class="fragment">The subject of this lyric is the words passion and beauty, two concepts that are related to each other as substance is to function...</p>
+				<p class="fragment fade-in-then-out">-<i style="font-style:italic;">Plum in the Golden Vase</i>
+				</p>
+				<p class="fragment">-<i style="font-style:italic;">Qingpingshantang huaben</i></p>
+				<p><small>Translation by David Tod Roy</small></p>
+
+				<aside class="notes">The plum opens with this lyric. But this is not original to the novel. Instead it is quote from an earlier collection of short stories called the qingpingshantang huaben. The quote continues through another stanza and then through an explanation of what the quote means, all drawn form an earlier source. It isn't until more than a page into the novel that we start to see the voice of the orignal text, and it isn't until we get past the sixth chapter until the predominate narrative is original to the Plum</aside>
+			</section>
+				<section>
+					<p>"An Urgent Request for an Imperial Decision in Favor of Summary Execution for the Traitorous Ministers Who Abuse Their Power and Betray the National Interest, with a View Toward Reinvigoration of Our Armed Forces and Elimination of the Bararian Threat..."</p>
+					<p class="fragment">"...If Ximen Qing had not read these documents nothing might have happened, but having read them: In his ears all he heard was a sighing rush of air, as his ethereal and material souls fled he knew not where."</p>
+					<p><small>Translation by David Tod Roy</small></p>
+				<aside class='notes'>The plum is also rife with heteroglossic moments where the narrative actively mimics the tone of other genres. In Chapter 17, for example, there is a multiple page long interlude where the narrative is seemingly reproducing a memorial that has been sent to the emperor. The style of this section is far removed from the very baudy style of the surrounding material. 
+					<br><br>
+					Big questions start to emerge when we encounter this sort of material: given the novel's general tendency to quote external material, is this quoting a real memorial? how similar is its style to Song dynasty memorials? If it is not quoting a real memorial, is it qouting anything else? And if so, is this tendency to quote other materials intrinsic to the memorial genre, or is it an invention of the author of our text? And these, outside of a computational context are questions that are VERY difficult to resolve.</aside></section>
+				
+				<section><h2>Intertextual reference forms a fundamental aspect of Ming and Qing literary composition</h2>
+					<h3 class='fragment'>No other work seems to do this as extensively as The <i style="font-style:italic;">Plum</i></h3>
+					<aside class="notes">This novel is so fundamentally important to understanding late imperial novelestic aesthetics becuase One of the prominent features of literary composition in Ming and Qing vernacular literuatre is the use of unsignposted intertextual reference. No other text seems to do this as extensively as the Plum. The approaches that I am going to be embarking on are an effort to work through the complexity of the Plum in a manner useful for studying the broader intertextuality across other Ming and Qing works. Note that these methods are all language agnostic and can easily apply to Japanese or Korean materials as well.</aside>
+					</section>
+			<section><h2>How can we understand a novel's "style" if much of the text is actually quotation?</h2>
+			<aside class='notes'>There is another motivating question behind all of this, when we talk about Plum's style in that we need to be asking ...</aside></section>
+			<section><h2>Computational analysis moves us toward a comprehensive* accounting of the <i style="font-style:italic;">Plum's</i> sources</h2>
+				<aside class="notes">Even though scholars have already worked on this extensively, if we can comprehensively identify the novels source material, we can disaggregate the endogenous material (that is the original work of the Plum's author) from the exogenous material (The work that the author appropraites and integrates into his narrative) and we can start to more fully examine the distinct stylistic frameworks present in the novel.
+				<br><br>
+				I am intersted in the search for ways of comprehensively studying systems of text in way in which time is not the constraining factor. Instead, the core thing that limits how comprehensive our studies can be is the limits of the corpus we have access to (which is admittedly a big caveat)
+				<br><br>
+				Furthermore, in working with a text that is well-studied, it allows me to test many of the methods I am developing, assess them against what we already knew, and establish their efficacy before deploying the methods more broadly in the world of lesser-known texts. 
+				<br><br>
+				These tools allow me to measure the mechanisms behind phenomona that we had observed in the past, and, by integrating computational stylstic analysis with intertextuality detection, I can start to account for how cross-referential moments cause certain things to ripple through large corpora.
+				<br><br>
+				I see this work as a philosophical successor to Qing philology, where we can use new tools and innovations can create fuller accountings of our texts of interest. As a friend once put it, we can start to understnad where all the words come from when there are just so many words. 
+			</aside></section>
+			<section><h3>Toward a generalizable approach to source materials</h3>
+			<aside class='notes'>I think it is really important to note that whenever we deal with late imperial literature we are dealing with texts that are in many was constructed from quotations. to this point we don't have a reliable way of dealing with them, and this project begins to provide that.</aside></section>
+			<section><h2>Three central tasks</h2>
+			<h3 class="fragment">Computationally identify sources</h3>
+			<h3 class="fragment">Disaggregate exogenous and endogenous style</h3>
+			<h3 class="fragment">Uncover moments of implied (or undetected) intertextuality</h3>
+				<aside class="notes">I am going to talk about a number of different things, but primarily I am interested in these three.</aside>
+		</section>
+			
+			<section><h2>Most of my analysis focuses on "style"</h2>
+			<aside class="notes">
+				So I am going to take a few minutes with a technical prelude in which I'll like you to walk you thgough the basis of HOW one may measure style computationally.
+				
+				So undergirding all of this is this definition of style
+			</aside>
+		</section>
+			<section>
+				<blockquote>Style is a property of texts constituted by an ensemble of formal features which can be
+					observed quantitatively or qualitatively.</blockquote>
+				<p style="position: fixed; right:0px; font-size: .35em">-Hermann, van Dalen-Oskam, and Schöch,
+					"Revisiting Style, a Key Concept in Literary Studies," <i style="font-style:italic;">Journal of Literary Theory</i>, March 2015
+				</p>
+				<aside class="notes">This may seem odd, but quantitative variations actually let me cluster documents
+					based on all manner of characteristics like genre, content, authorship, and even period of creation.
+				</aside>
+			</section>
+
+			<section><h2>How might we measure style?</h2>
+			<aside class="notes">computers are really bad at working with language, but they are amazing at working with numbers. so that means that to perform meanginful quantitative analysis on linguistic materials we need to come up with some way of transforming natural language into numbers in a ay that captures something meaningful about the text at hand (and what we consider meaningful may change depending on our own particular research questions). </aside>
+			</section>
+			<section><h2>What features matter, and how should quantify them?</h2></section>
+			<section><h2>Step 1: deciding the atomic unit of analysis</h2><h3 class="fragment">(or: what are our "tokens")</h3>
+			<aside class="notes">the first step in this process is deciding what a meaningful atomic unit of analysis is. how are we going to break a long human written text into individual units that computer can analyze. in other words, what are our "tokens." are we going to focus on words? are we going to look at individual characters? or are we going to try to delve into a even lower level of analysis. all of these approaches have their pros and cons and what we decide will have important effects on our downstream analysis</aside>
+			</section>
+			<section data-background-image="slides/Slide1.png"></section>
+			<section data-background-image="slides/Slide2.png"></section>
+			<section data-background-image="slides/Slide4.png"></section>
+			<section data-background-image="slides/Slide3.png"></section>
+			
+			<section><h2>Step 2: Analyze the Tokens to Create A "Vector Space Model"</h2>
+			<h3 class="fragment">A vector is list of numbers that mathematically represent something</h3>
+			<h3 class="fragment">thus transforming text to points in space</h3>
+			<aside class="notes">How do we use tokens to derive a meaningful representation of document? There are a very wide variety of algorithms we can use to transform a tokenized document into a vector, from extremely advanced embeddings using the most cutting edge transformer models, to the extremely simple act of just counting tokens</aside>
+			</section>
+			<section><h2>Token frequency</h2>
+			<h3 class="fragment">How often does a certain set of tokens appear within a document?</h3>
+			<aside class="notes">My general philosophy to computaitonal analysis is to use the simplest, most interpretable approach possible that effectively answers the question. So although modern transformer-based models might offer some marginal improvements to my use cases, to this point they don't out perform simpler models enough to justify their computational overhead/complexity. If the variation in frequency of a token is significant enough across multiple documents, then we should be able leverage this in a few ways. This known as a bag of words model</aside>
+			</section>
+			
+			<section>
+				<table style="font-size: .65em;">	
+					<tr><th>Book</th><th>Chapter</th><th>之</th><th>的</th><th>說</th><th>曰</th><th>了</th><th>不</th><th>他</th><th>我</th></tr>
+					<tr><td>Three Kingdoms</td><td>1</td><td>61</td><td>1</td><td>22</td><td>71</td><td>23</td><td>64</td><td>5</td><td>11</td></tr>
+					<tr><td>Three Kingdoms</td><td>2</td><td>64</td><td>1</td><td>8</td><td>62</td><td>6</td><td>54</td><td>5</td><td>16</td></tr>
+					<tr><td>Water Margin</td><td>8</td><td>3</td><td>39</td><td>34</td><td>1</td><td>88</td><td>78</td><td>21</td><td>27</td></tr>
+					<tr><td>Water Margin</td><td>9</td><td>8</td><td>48</td><td>33</td><td>0</td><td>132</td><td>90</td><td>58</td><td>39</td></tr>
+					<tr><td>Journey to the West</td><td>76</td><td>26</td><td>74</td><td>23</td><td>0</td><td>106</td><td>98</td><td>114</td><td>120</td></tr>
+					<tr><td>Journey to the West</td><td>77</td><td>23</td><td>56</td><td>25</td><td>1</td><td>115</td><td>109</td><td>64</td><td>81</td></tr>
+					<tr><td>Plum in Golden Vase</td><td>24</td><td>2</td><td>66</td><td>43</td><td>0</td><td>111</td><td>95</td><td>60</td><td>57</td></tr>
+					<tr><td>Plum in Golden Vase</td><td>25</td><td>7</td><td>126</td><td>89</td><td>0</td><td>132</td><td>116</td><td>138</td><td>100</td></tr>
+					<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+				</table>
+				<aside class="notes">We can immediately see an issue here. These numbers are highly dependent on the length of a particular input text</aside>
+			</section>
+
+			<section>
+				<table style="font-size: .65em;">
+					<tr><th>Book</th><th>Chapter</th><th>之</th><th>的</th><th>說</th><th>曰</th><th>了</th><th>不</th><th>他</th><th>我</th></tr>
+					<tr><td>Three Kingdoms</td><td>1</td><td>0.52</td><td>0.01</td><td>0.19</td><td>0.6</td><td>0.19</td><td>0.54</td><td>0.04</td><td>0.09</td></tr>
+					<tr><td>Three Kingdoms</td><td>2</td><td>0.6</td><td>0.01</td><td>0.08</td><td>0.58</td><td>0.06</td><td>0.51</td><td>0.05</td><td>0.15</td></tr>
+					<tr><td>Water Margin</td><td>8</td><td>0.02</td><td>0.29</td><td>0.26</td><td>0.01</td><td>0.66</td><td>0.59</td><td>0.16</td><td>0.2</td></tr>
+					<tr><td>Water Margin</td><td>9</td><td>0.04</td><td>0.26</td><td>0.18</td><td>0.0</td><td>0.72</td><td>0.49</td><td>0.32</td><td>0.21</td></tr>
+					<tr><td>Journey to the West</td><td>76</td><td>0.11</td><td>0.32</td><td>0.1</td><td>0.0</td><td>0.45</td><td>0.42</td><td>0.49</td><td>0.51</td></tr>
+					<tr><td>Journey to the West</td><td>77</td><td>0.11</td><td>0.28</td><td>0.12</td><td>0.0</td><td>0.57</td><td>0.54</td><td>0.32</td><td>0.4</td></tr>
+					<tr><td>Plum in Golden Vase</td><td>24</td><td>0.01</td><td>0.36</td><td>0.23</td><td>0.0</td><td>0.6</td><td>0.51</td><td>0.32</td><td>0.31</td></tr>
+					<tr><td>Plum in Golden Vase</td><td>25</td><td>0.02</td><td>0.44</td><td>0.31</td><td>0.0</td><td>0.46</td><td>0.4</td><td>0.48</td><td>0.35</td></tr>
+					<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+				</table>
+				<aside class="notes">We can immediately see an issue here. These numbers are highly dependent on the length of a particular input text</aside>
+			</section>
+
+			<section>
+				<table style="font-size: .65em;">
+					<tr><th>Book</th><th>Chapter</th><th>之</th><th>的</th><th>說</th><th>曰</th><th>了</th><th>不</th><th>他</th><th>我</th></tr>
+					<tr><td>Three Kingdoms</td><td>1</td><td style="background: magenta">0.52</td><td style="background: cyan; color: #191919">0.01</td><td>0.19</td><td>0.6</td><td>0.19</td><td>0.54</td><td>0.04</td><td>0.09</td></tr>
+					<tr><td>Three Kingdoms</td><td>2</td><td style="background: magenta">0.6</td><td style="background: cyan; color: #191919">0.01</td><td>0.08</td><td>0.58</td><td>0.06</td><td>0.51</td><td>0.05</td><td>0.15</td></tr>
+					<tr><td>Water Margin</td><td>8</td><td style="background: magenta">0.02</td><td style="background: cyan; color: #191919">0.29</td><td>0.26</td><td>0.01</td><td>0.66</td><td>0.59</td><td>0.16</td><td>0.2</td></tr>
+					<tr><td>Water Margin</td><td>9</td><td style="background: magenta">0.04</td><td style="background: cyan; color: #191919">0.26</td><td>0.18</td><td>0.0</td><td>0.72</td><td>0.49</td><td>0.32</td><td>0.21</td></tr>
+					<tr><td>Journey to the West</td><td>76</td><td style="background: magenta">0.11</td><td style="background: cyan; color: #191919">0.32</td><td>0.1</td><td>0.0</td><td>0.45</td><td>0.42</td><td>0.49</td><td>0.51</td></tr>
+					<tr><td>Journey to the West</td><td>77</td><td style="background: magenta">0.11</td><td style="background: cyan; color: #191919">0.28</td><td>0.12</td><td>0.0</td><td>0.57</td><td>0.54</td><td>0.32</td><td>0.4</td></tr>
+					<tr><td>Plum in Golden Vase</td><td>24</td><td style="background: magenta">0.01</td><td style="background: cyan; color: #191919">0.36</td><td>0.23</td><td>0.0</td><td>0.6</td><td>0.51</td><td>0.32</td><td>0.31</td></tr>
+					<tr><td>Plum in Golden Vase</td><td>25</td><td style="background: magenta">0.02</td><td style="background: cyan; color: #191919">0.44</td><td>0.31</td><td>0.0</td><td>0.46</td><td>0.4</td><td>0.48</td><td>0.35</td></tr>
+					<tr><td>...</td><td>...</td><td style="background: magenta">...</td><td style="background: cyan; color: #191919">...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+				</table>
+				<aside class="notes"></aside>
+			</section>
+
+			<section data-background-iframe="charplotviz/index.html" data-background-interactive>
+				<aside class="notes">"c" to show components, note that this process causes lots of information loss</aside>
+			</section>
+			<section><h2>Every choice influences the patterns that emerge</h2>
+			<aside class="notes">So what set of criteria reveal patterns apposite to our inquiries?</aside>
+			</section>
+			<section><table>
+				<tr><th>Vector Type</th><th>Common Clustering</th></tr>
+				<tr><td>Most Frequent 100 1-grams</td><td>Authorship</td></tr>
+				<tr><td>Most Frequent 200 1-grams</td><td>Text of origin</td></tr>
+				<tr><td>Most Frequent 1K 1-grams</td><td>Genre</td></tr>
+				<tr><td>Most Frequent 1K 3-grams</td><td>Semantic Content</td></tr>
+				<tr><td>Custom Vocabulary</td><td>???</td></tr>
+			</table>
+			<aside class="notes">These are not at all hard and fast rules and must be imperically determined</aside>
+		</section>
+			<section><h2>Close-reading from a distance</h2>
+			<aside class='notes'>One of things we can do with this sort of exploratory visualization is to leverage it to identify unexpected phenomona, even within a single text. The Plum in fact offers up some very interesting ground for investigation. Just as an aside, one of the central concerns I have as someone who works with data driven analysis of literary aterials is thinking about ways to actively move from a distant view of the text and jumping directly into the text itself to see what is causing the phenomenon that appear in my visualizations</aside></section>
+			<section><h2>Sliding windows can uncover rapid shifts in style</h2>
+			<h3>Divide the text into 500 character-long overlapping chunks</h3>
+			<h3>Visualize them with PCA</h3></section>
+			<section data-background-image="slides/Slide6.png"></section>
+			<section data-background-iframe="pcaoverlap/index.html" data-background-interactive><aside class="notes">Here I am showing you just the first 1000 of these windows (about a sixth of the first chapter). I can scan through the text looking for moments where the style shifts extremely quickly, which allows me to see tsome fascinating things and is often related to the strongly heteroglossic content of the novel. One other point that beras consideration is the parts of the knovel I know to be original tend to have much wider variation in style than the water marigne, for example. If we return to the memorial I mentioned at the begining fo this talk, we can actually use a view like this to see how much it impacts the overall style of the chapter. 
+				<br><br>
+				show result at char 93663 (dibao). note the intertia in the movement here, as soon as the window starts to encompass language from the dibao we have a very rapid movement of the represnted style.
+				<br><br>
+				= advance shown segments 
+				<br>
+				- back shown segments 
+				<br>
+				rightarrow advance highlighted text by one 
+				<br>
+				leftarrow back highlighted text by one  
+				<br>
+				uparrow advance 25 
+				<br>
+				downarrow back 25
+				<br>
+				m next chapter
+				<br>
+				n last chapter
+			</aside></section>
+			<section><h2>From exploratory visualization to text classification</h2>
+			<aside class="notes">while exploratory visualizations are extremely useful, they by necessity compress the data and simplify things much more than we would often like. so instead we can also take these vectors, without compressing them, and use them to train text classifiers</aside>
+			</section>
+		
+			<section data-background-iframe="classification/classification.html" data-background-interactive>
+				<aside class="notes"></aside>
+			</section>
+			<section><h2>Support Vector Machine (or SVM)</h2>
+			<aside class="notes">This is one of very many algorithms you can use for machine learning. SVMs are one of the most tried and true algorithms for text classification, and work very well and are easy to interpret. While I could (and in fact do) fine tune an LLM to perform these same tasks, that is very much overkill for this task. For those who are curious I use stochastic gradient descent to train the model as implemented in the scikit learn python library.</aside>
+			</section>
+
+			<section><h2>Mapping intertextuality in <i style="font-style:italic;">Plum in the Golden Vase</i></h2>
+			<aside class="notes">Let's return to the matter at hand. If we want to assess how intertextuailty functions in the novel, then we first need to identify it</aside>
+			</section>
+
+			<section>
+				<h2>My Digital Corpus:</h2>
+				<p class="fragment">14,875 texts from known periods</p>
+				<p class="fragment">totaling 1.25 billion characters</p>
+				<p class="fragment">derived from open-source collections</p>
+				<p class="fragment">Including Kanseki, Daizhige, WikiSource, etc</p>
+			</section>
+
+			<section>
+				<h2>Find every run of at least ten consecutive characters, allowing for minor variation, appearing in
+					all other
+					texts</h2>
+				<p style="position: fixed; bottom:-40px; left:0px; font-size: .35em">Method described in Vierthaler and
+					Gelein,
+					<i style="font-style:italic;">Cultural Analytics</i>, 2019
+				</p>
+				<aside class="notes">Note that a smaller version of this tool is easily usable on MARKUS</aside>
+			</section>
+
+			<section>
+				<h2>Noisy results:</h2>
+				<h2 class="fragment">336,000 instances of reuse</h2>
+				<h2 class="fragment">20,400 unique quotes</h2>
+				<h2 class="fragment">across 3,690 unique texts</h2>
+
+				<aside class="notes">This algorithm performs remarkably well, but the results are noisy. While
+					it will dutifully return every instances of shared text, it does not tell us anything about which
+					text a quote originated in be it the Plum, the second text, or some third text that we don't have
+					access to</aside>
+			</section>
+			<section data-background-iframe="timelines/jpmtime5.html" data-background-interactive><aside class="notes">Here I am showing a timeline of the Plum in the Golden Vase, where the left side is the beginning of the novel and the right is the end. On the top level I highlight sections of text I can trace to books written before the Ming dynasty, and in Cyan are those that appear in other books from the Ming.</aside></section>
+			<section>
+				<h2>What is a source, what is quoting the <i style="font-style:italic;">Plum</i>, and what is merely a coincidence?</h2>
+			</section>
+			
+			<!-- <section data-background-iframe="network/jpmnetworknodir.html" data-background-interactive> -->
+			<aside class="notes">Even when we mark up the documents that we know came before Jinpingmei, we still have a bunch of contemporary texts that we don't know the origin of</aside></section>
+			<section><h2>Text classification to the rescue</h2></section>
+			<section>
+				<h2>Assume that a quote will look more like its source than the text that copies it</h2>
+				<aside class="notes">So how do we do this?</aside>
+			</section>
+			<section>
+				<h2>Proof of Concept: Predicting if a random piece of text comes from one text or another</h2>
+			</section>
+			<section>
+				<h3><i style="font-style:italic;">Jingshi yinyang meng</i> 警世陰陽夢</h3>
+				<h3>vs.</h3>
+				<h3><i style="font-style:italic;">Yujing xintan</i> 玉鏡新譚</h3>
+				<aside class="notes">I use this as an example because I know that these are related, but still fairly
+					distinct texts that should offer a good use case. One is a unofficial history that recounts events that happened while the Eunuch Wei Zhongxian was trying to control the country, and the other is a novel discussing these very same events.
+				<br><br>
+				If we compare randomly selected sections of text 
+				</aside>
+			</section>
+			<section data-background-iframe="yjjs/barviz.html" data-background-interactive></section>
+			<!-- <section data-background-iframe="yjjs/getselections.html"></section> -->
+
+
+			<section section data-background-iframe="yjjs/yjstylo.html" data-background-interactive>
+			</section>
+			<section>
+				<h2>The basic process:</h2>
+				<p>Randomly extract sections of text from each work, taking care NOT to extract shared material</p>
+				<p>Train a classifier on this material</p>
+				<aside class="notes"></aside>
+			</section>
+			<section>
+				<h2>Using this approach I can develop an accurate model</h2>
+				<ul>
+					<li class="fragment">For sections at least 50 characters long</li>
+					<li class="fragment">98% accuracy (+/-2%)</li>
+					<li class="fragment">Longer sections provide more accuracy</li>
+					<aside class="notes">when the quotes are at least 100 characters, the accuracy is much higher. This
+						also depends on teh type of algorithm (of tested methods, neural nets work the best)</aside>
+				</ul>
+			</section>
+			<section>
+				<h2>This correctly predicts the origin of 18 of 19 shared quotes</h2>
+				<aside class="notes">This last piece is likely simply a result of randomness</aside>
+			</section>
+			<section>
+				<h2>A harder example</h2>
+			</section>
+			<section>
+				<h2><i style="font-style:italic;">Shuihu zhuan</i> 水滸傳</h2>
+				<h2>vs.</h2>
+				<h2><i style="font-style:italic;">Jinpingmei</i> 金瓶梅</h2>
+			</section>
+			<section data-background-iframe="jpmshuihu/barviz.html" data-background-interactive></section>
+			<section data-background-iframe="jpmshuihu/sjstylo.html" data-background-interactive>
+			</section>
+			<section>
+				<h2>96% accuracy (+/-1%)</h2>
+				<p>10-fold cross-validation</p>
+			</section>
+			<section>
+				<h2>67% accurate when applied to shared quotes longer than 15 characters</h2>
+				<p>(501 of 748)</p>
+				<p class="fragment">The complication lies in how the model makes distinctions</p>
+				<p class="fragment">The characters 西 Xi, 門 Men, and 慶 Qing are significantly over-represented in misidentifed quotes</p>
+				<aside class="notes">Need to push this futher with ANOVA, and to check. as compared with
+					his presense in the quotes as a whole (44 percent vs 19 percent)</aside>
+			</section>
+			<section>
+				<h2>Interestingly, performance improves signficantly when allowing quotes 10 characters or longer</h2>
+				<p>Accuracy jumps to 95 percent (Ximen Qing appears in 30 percent of mislabeled quotes, and 2 percent of
+					all quotes)</p>
+			</section>
+			<section><h2>Running this process across all contemporary materials suggests this map</h2></section>
+			<section data-background-iframe="timelines/jpmtimepred.html" data-background-interactive><aside class="notes"></aside></section>
+			<section><h2>What, if any, influence does this material have on they style of the novel?</h2>
+			<aside class='notes'>here we move from the philologically centered research extracting the FACT of intertextuality and move to the more literary concern of what was its stylstic impact? and later, though beyond the scope of this talk, is how does jinpingmei's intertextual style differ when compared against other works. We can actually develop an intuation for this by observing some of the major differences between the 1630s edition of the novel and the 1617 edition that has been at the center of our discussion so far. While the 1617 edition was likely much closer to the manuscript version, the 1630s edition was the primary version read throughout the Qing dynasty. I've done extensively stylstic analysis of the two editions and they are VERY distinct.</aside></section>
+			
+			<section data-background-iframe="chapteralignment/indexnowords.html" data-background-interactive><aside class='notes'>We can assess the nature of the edits the 1630s editor made by aligning the two verisons of the texts. In chapter 71, for example, the editor makes significant changes, deletions, and insertions.</aside></section>
+			
+			<section data-background-iframe="chapteralignment/chapter71sourcesmats.html" data-background-interactive><aside class='notes'>When we map intertextuality onto this we can see that much of the 1630's editors attention was focused on excizing intertextual material</aside></section>
+			<section><h2>Comparing the style of prior material against material original to the novel</h2>
+			</section>
+			<section>
+					<h3>Divide the text into two pots, one with exogenous material, one with  endogenous material</h3>
+					<h3 class="fragment">Compare the style of randomly selected sections from each pot</h3>
+					<aside class="notes">So how do we do this a little more formally?</aside>
+			</section>
+			<section data-background-iframe="jpmsourcestyle/sourceorgstylo.html" data-background-interactive>
+			<aside class="notes">Now when we look at relatively short chunks, here I am showing 5,000 25 character long chunks from both of these collections (note that I am super sampling) where each chunk of text is represnted by the vector determined by the 1000 most common characters across the entire corpus. This might not look too impressive in a pca that compresses the data to two dimensions</aside>
+			</section>
+			<section data-background-iframe="jpmsourcestyle/sourceorgstylo2.html" data-background-interactive>
+			<aside class='notes'>But the phenomenon much clearer when we look at 100 character long chunks (again I am super sampling)</aside></section>
+			<section><h2>Text classification models reveal that this data is very easy to differentiate</h2>
+			<aside class='notes'></aside></section>
+			<section>
+				<p>"Is this original to Plum (positive) or not (negative)" </p>
+				<table  style="font-size: .8em;">
+				<tr><th>Chunk Length</th><th>Acc.</th><th>True pos.</th><th>False pos.</th><th>True neg.</th><th>False neg.</th></tr>
+				<tr><td>10</td><td>76%</td><td>496</td><td>124</td><td>570</td><td>60</td></tr>
+				<tr><td>15</td><td>79%</td><td>551</td><td>75</td><td>542</td><td>82</td></tr>
+				<tr><td>25</td><td>85%</td><td>516</td><td>92</td><td>618</td><td>24</td></tr>
+				<tr><td>50</td><td>92%</td><td>568</td><td>47</td><td>627</td><td>8</td></tr>
+				<tr><td>100</td><td>96%</td><td>603</td><td>25</td><td>620</td><td>0</td></tr>
+				<tr><td>250</td><td>99%</td><td>628</td><td>2</td><td>620</td><td>0</td></tr>
+				<tr><td>500</td><td>100%</td><td>616</td><td>2</td><td>632</td><td>0</td></tr>
+			</table>
+		<aside class='notes'>Here is a table showing the accuracy of seven different models I trained on these two buckets of text. The only difference between them was the length of the randomly selected chunks of text I garabed. Note that it is not quite as good at telling the original material as compared to the prior material, but this is to be expected if we think that the novel has sections of intertextual text that were not detected or which were intentionally written to seem intertextual. accuracy 10 fold cv</aside>
+		</section>
+			<section><h2>Given these results, can we start to resuscitate implied intertextuality?</h2>
+			<aside class='notes'>The answer, I think, is yes.</aside></section>
+			
+			
+			<section><h2>Developing a "likelihood of intertextuality" score</h2>
+				<p class="fragment">Divide the novel into overlapping windows of text</p>
+				<p class="fragment">Divide window into even shorter overlapping windows</p>
+				<p class="fragment">Feed the shorter windows into a classifier</p>
+				<p class="fragment">Return 0 when it predicts material is exogenous</p> 
+				<p class="fragment">Return 1 when it predicts it is endogenous</p>
+				<p class="fragment">Average inner-window scores to generate outer-window score</p>
+				
+			<aside class="notes">Taking the model developed for 25 character long sections of text, I can ascribe each 150 character long chunk of text a score by moving through the chunk in a 25 character sliding window, having the model predict if the text is likely original or prior. While it is only about 86 percent accurrate, this will allow me to see stretchs of the novel that are suspiciously unlike the rest of teh work.</aside>
+			</section>
+			<section><h2>Deciding the length of the outer and inner windows allows me to tune the model</h2>
+			<p class="fragment">So far a 150-character-long outer window and 25-character-long inner window provide the best results</p></section>
+			<!-- <section><h2>From Macro to Micro Analysis</h2></section> -->
+			<section data-background-iframe="selfsim/index.html" data-background-interactive>
+				<aside class="notes">Here I am layering the intertextual data on top of the model estimates for whether a given section of the text is likely to contain intertextual material. Top layer shows is this intertextual, middle is the text itself, bottom is the prediction. 
+					<br><br>
+					Critically, because of the nature of how I am calcuating this, there is a lot of intertia in the model. What I mean by these is each datapoint in my lines represents the current character and the 149 after it. This needs some tuning, but it points me in the direction of suspicious places. 
+					<br><br>
+					This model seems to be quite sensitive to both missing intertexutality and moments of strong, but probably original heteroglossia. And the prospect for hypothesizing about the nature of information missing from our datasets and extant literary record is very exciting. 
+					<br><br>
+					So for example, let's consider the Plum's relationship with the Water Margin, which is what constitutes most of what we are seeing her in this section. Patrick Hanan has argued that the version of Water Margin the author used is no longer extant. One way to assess is to look at moments in the Water Margin section of Plum that the model really thinks is original to the Plum, which may suggest certain types of editorial intervention that give the apperance of a no-longer extant version of Water Margin. When coupled with a set of other moments where the intertexuality drops out but the model continues to think the material is exogenous, we can start to hone in on which parts are likely from a missing version of the Water Margin, and which ones are just made up by the author. I am actively working on a taxonomic analysis of Water Margin as part of the overall book project, though it remains early days.
+					<br><br>
+					 We can also see the moment in chapter 17 where someone reports on a dibao to The main character. The text is understood as very distinct (understandably) with a few moments of intertextuality. Here we have an opportunity to think about the relationship between the Plum's "dibao," real "dibao," and the sorts of intertextuality that commonly appear therein. And perhpas it might lead us to hints of who the author of the novel is, if the author also wrote official works with intersting intertextual moments.
+					<br><br>
+					And as a quick aside, another question I am investigating in the monograph is whether these broad patterns of endogenous vs exogenous predictions vary signficantly from what is found in other Ming and Qing texts. 
+				</aside>
+			</section>
+			<section><h2>A few caveats...</h2><aside class='notes'>On the whole Plum offers up fascinating new prospects for digital analysis, but it is  important to remember that the reaches of the analsysis we can do is largely (though I think not entirely) confined to the digitized corpus to which we have access. Also, given the complexity of the novel and the need to boil it down into hard numbers, there is a lot of noise we have to condend with. Its also important to remember that this work is highly probabilistic and very dependent on the parameters we set. Additionally, genre can confound the results in some interesting ways, as its signal tends to drown out others</aside></section>
+			<section><h2>What are the implications of all this?</h2>
+			<aside class='notes'>So where does that leave us? What are this implications of this, and what have we learned that we didn't know before? Critically, we've seen that intertextuality has a strong impact on the style of the novel which of course scholars have been noting for years. What we can do now that is new, however, is actively measure this in a way that we can generalize beyond JInpingmei. 
+			
+			<br><br>
+				We can study individual moments and obverse the mechanisms behind this stylsitic influence. We can also start to unconver the holes in our data, where intertextual references seem to be missing. And this process of layering views of our data offers extremely interesting possibilities in mixing distant and close reading. Here this touches on one of the most important branches of research that I do, building out new views into works we've been studying for many years. In all, digital methods are going to continue to help us refine our understanding of the text of the Plum and understand where it fits in the overall production of literary materials from late Imperial China. We can begin to see how intertextually systematically operates, and we can start to figure out where all of these words are coming from, in spite of the sheer number of words at hand.</aside></section>
+
+			<section><h2>A Quick thanks to </h2>
+			<p>NVIDIA, Leiden University, William & Mary</p>
+			</section>
+			<section><h2>Questions?</h2></section>
+		</div>
+	</div>
+
+	<script src="../reveal/dist/reveal.js"></script>
+	<script src="../reveal/plugin/notes/notes.js"></script>
+	<script src="../reveal/plugin/markdown/markdown.js"></script>
+	<script src="../reveal/plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+			transition: 'fade',
+			transitionSpeed: 'fast',
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+	</script>
+</body>
+
+</html>
